@@ -1,0 +1,100 @@
+/*
+Copyright 2025 Elia Medeot
+This file is part of GENERATORE DI TEXTURE 01 and is released under the MIT License.
+*/
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+#myCanvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 1rem;
+  box-shadow: 0 0 50px silver;
+}
+
+h1 {
+  color: #282828;
+  font-size: 4rem;
+  line-height: 4rem;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+p {
+  color: dimgray;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 450;
+  font-style: normal;
+  text-transform: capitalize;
+}
+
+a {
+  color: dimgray;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 450;
+  font-style: normal;
+  text-transform: capitalize;
+  text-decoration: none;
+}
+
+.lil-gui {
+  --background-color: whitesmoke;
+  --text-color: dimgray;
+  --title-background-color: gainsboro;
+  --title-text-color: dimgray;
+
+  --widget-color: gainsboro;
+  --hover-color: lightgray;
+  --focus-color: silver;
+  --number-color: gray;
+  --string-color: gray;
+
+  --widget-border-radius: 1rem;
+  --widget-height: 1.5rem;
+  --width: 100%;
+  --padding: 0;
+  --spacing: 0.75rem;
+
+  --name-width: 40%;
+  --font-size: 1rem;
+  --slider-knob-width: 0.2rem;
+  --slider-input-width: 20%;
+  --color-input-width: 20%;
+
+  font-family: "DM Sans", sans-serif;
+  font-weight: 450;
+  font-style: normal;
+  text-transform: capitalize;
+}
+
+.lil-gui .title {
+  display: none;
+}
+
+.lil-gui .name {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.lil-gui input {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.lil-gui button {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 450;
+  font-style: normal;
+  text-transform: capitalize;
+}
