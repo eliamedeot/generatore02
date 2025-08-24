@@ -2,6 +2,7 @@
 Copyright 2025 Elia Medeot
 This file is part of GENERATORE DI TEXTURE 02 and is released under the MIT License.
 */
+
 import GUI from 'https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm';
 import { Context, Element } from 'https://cdn.jsdelivr.net/npm/svgcanvas@2.6.0/+esm';
 const gui = new GUI({ container: document.getElementById('ui') });
@@ -113,7 +114,6 @@ updateMosaic();
 
 window.addEventListener('resize', onWindowResize);
 
-
 function generateNoise() {
   const openSimplex = new OpenSimplexNoise(params.noiseSeed);
 
@@ -133,7 +133,6 @@ function generateNoise() {
   noiseContext.putImageData(noiseImage, 0, 0);
   updateMosaic(); // Update mosaic after noise generation
 } // generateNoise
-
 
 function updateMosaic() {
   // Calculate canvas dimensions
