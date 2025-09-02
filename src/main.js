@@ -10,35 +10,10 @@ const gui = new GUI({ container: document.getElementById('ui') });
 import OpenSimplexNoiseModule from 'https://cdn.jsdelivr.net/npm/@minttu/open-simplex-noise@1.3.0/+esm';
 const OpenSimplexNoise = OpenSimplexNoiseModule.default;
 
-// Noise texture dimensions
-const [width, height] = [1000, 1000];
-const noiseCanvas = document.createElement('canvas');
-noiseCanvas.width = width;
-noiseCanvas.height = height;
-const noiseContext = noiseCanvas.getContext('2d');
-
-// Generate noise texture
-const noiseImage = noiseContext.createImageData(width, height);
-
-// Onscreen canvas
-const mainCanvas = document.getElementById('myCanvas');
-const mainContext = mainCanvas.getContext('2d');
-
-// Raster filter canvas
-const filterCanvas = document.createElement('canvas');
-filterCanvas.width = width;
-filterCanvas.height = height;
-const filterContext = filterCanvas.getContext('2d', { willReadFrequently: true });
-
-// SVG filter canvas
-const vectorCanvas = document.createElement('canvas');
-vectorCanvas.width = width;
-vectorCanvas.height = height;
-const vectorContext = vectorCanvas.getContext('2d');
-let svgContext;
-
 // UI parameters
 const params = {
+  canvasWidth: 1000,
+  canvasHeight: 1000,
   tilesX: 10,
   tilesY: 10,
   minH: 0,
@@ -68,12 +43,37 @@ const params = {
   }
 };
 
+// Noise texture dimensions
+const noiseCanvas = document.createElement('canvas');
+noiseCanvas.width = params.canvasWidth;
+noiseCanvas.height = params.canvasHeight;
+const noiseContext = noiseCanvas.getContext('2d');
+
+// Generate noise texture
+const noiseImage = noiseContext.createImageData( params.canvasWidth, params.canvasHeight);
+
+// Onscreen canvas
+const mainCanvas = document.getElementById('myCanvas');
+const mainContext = mainCanvas.getContext('2d');
+
+// Raster filter canvas
+const filterCanvas = document.createElement('canvas');
+filterCanvas.width = params.canvasWidth;
+filterCanvas.height = params.canvasHeight;
+const filterContext = filterCanvas.getContext('2d', { willReadFrequently: true });
+
+// SVG filter canvas
+const vectorCanvas = document.createElement('canvas');
+vectorCanvas.width = params.canvasWidth;
+vectorCanvas.height = params.canvasHeight;
+const vectorContext = vectorCanvas.getContext('2d');
+let svgContext;
 
 // Initialize SVG context
 function initializeSVGContext() {
   const options = {
-    width: width,
-    height: height,
+    width: params.canvasWidth,
+    height: params.canvasHeight,
     svgContext: vectorContext,
     enableMirroring: false,
     document: undefined,
@@ -83,6 +83,8 @@ function initializeSVGContext() {
 
 // Add UI controls
 gui.open();
+gui.add(params, 'canvasWidth', 1, 1000).step(1).name('C anvas Width').onChange(updateMosaic);
+gui.add(params, 'canvasHeight', 1, 1000).step(1).name('Canvas Height').onChange(updateMosaic);
 gui.add(params, 'tilesX', 1, 400).step(1).name('Tiles X').onChange(updateMosaic);
 gui.add(params, 'tilesY', 1, 400).step(1).name('Tiles Y').onChange(updateMosaic);
 const minHController = gui.add(params, 'minH', 0, params.maxH).step(1).name('Minimum Height').onChange(updateMosaic);
@@ -115,30 +117,36 @@ updateMosaic();
 window.addEventListener('resize', onWindowResize);
 
 function generateNoise() {
+  // Set the noiseCanvas dimensions to match the current params
+  noiseCanvas.width = params.canvasWidth;
+  noiseCanvas.height = params.canvasHeight;
+  const noiseImage = noiseContext.createImageData(params.canvasWidth, params.canvasHeight);
+
   const openSimplex = new OpenSimplexNoise(params.noiseSeed);
 
-  for (let x = 0; x < width; x++) {
-    for (let y = 0; y < height; y++) {
-      const i = (x + y * width) * 4;
-      // Use offsets here
+  for (let x = 0; x < params.canvasWidth; x++) {
+    for (let y = 0; y < params.canvasHeight; y++) {
+      const i = (x + y * params.canvasWidth) * 4;
       const noiseX = x / params.noiseSize + params.offsetX;
       const noiseY = y / params.noiseSize + params.offsetY;
       const value = (openSimplex.noise2D(noiseX, noiseY) + 1) * 128;
+
       noiseImage.data[i] = value * params.noiseConstrast;
       noiseImage.data[i + 1] = value * params.noiseConstrast;
       noiseImage.data[i + 2] = value * params.noiseConstrast;
-      noiseImage.data[i + 3] = 255;
+      noiseImage.data[i + 3] = 255; // Alpha channel
     }
   }
+
   noiseContext.putImageData(noiseImage, 0, 0);
-  updateMosaic(); // Update mosaic after noise generation
-} // generateNoise
+  updateMosaic(); // Update mosaic to reflect the newly generated noise
+}
 
 function updateMosaic() {
   // Calculate canvas dimensions
   let mainCanvasWidth = window.innerWidth * 0.8;
   let mainCanvasHeight = window.innerHeight * 0.8;
-  let imageAspectRatio = width / height;
+  let imageAspectRatio =  params.canvasWidth /  params.canvasHeight;
   if (mainCanvasWidth / mainCanvasHeight > imageAspectRatio) {
     mainCanvasWidth = mainCanvasHeight * imageAspectRatio;
   } else {
@@ -146,12 +154,12 @@ function updateMosaic() {
   }
 
   // Set canvas sizes
-  mainCanvas.width = mainCanvasWidth;
-  mainCanvas.height = mainCanvasHeight;
-  filterCanvas.width = width;
-  filterCanvas.height = height;
-  vectorCanvas.width = width;
-  vectorCanvas.height = height;
+  mainCanvas.width = params.canvasWidth;
+  mainCanvas.height = params.canvasHeight;
+  filterCanvas.width = params.canvasWidth;
+  filterCanvas.height =  params.canvasHeight;
+  vectorCanvas.width = params.canvasWidth;
+  vectorCanvas.height =  params.canvasHeight;
 
   // Clear canvases
   filterContext.clearRect(0, 0, filterCanvas.width, filterCanvas.height);
@@ -177,8 +185,8 @@ function updateMosaic() {
   for (let x = 0; x < params.tilesX; x++) {
     for (let y = 0; y < params.tilesY; y++) {
       // Map tile coordinates to noise canvas
-      const imgX = Math.floor((x / params.tilesX) * width);
-      const imgY = Math.floor((y / params.tilesY) * height);
+      const imgX = Math.floor((x / params.tilesX) *  params.canvasHeight);
+      const imgY = Math.floor((y / params.tilesY) *  params.canvasHeight);
 
       // Get pixel data from noise texture
       const pixelData = noiseContext.getImageData(imgX, imgY, 1, 1).data;
@@ -211,9 +219,9 @@ function updateMosaic() {
 
   // Draw to main canvas
   if (params.showReferenceImage) {
-    mainContext.drawImage(noiseCanvas, 0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.drawImage(noiseCanvas, 0, 0);
   } else {
-    mainContext.drawImage(filterCanvas, 0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.drawImage(filterCanvas, 0, 0);
   }
 }
 
