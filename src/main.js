@@ -89,13 +89,12 @@ gui.add(params, 'tilesX', 1, 400).step(1).name('Tiles X').onChange(updateMosaic)
 gui.add(params, 'tilesY', 1, 400).step(1).name('Tiles Y').onChange(updateMosaic);
 const minHController = gui.add(params, 'minH', 0, params.maxH).step(1).name('Minimum Height').onChange(updateMosaic);
 const maxHController = gui.add(params, 'maxH', 0, 1000).step(1).name('Maximum Height').onChange(updateMosaic);
-gui.add(params, 'offsetX', -10, 10).step(1).name('Offset X').onChange(generateNoise);
-gui.add(params, 'offsetY', -10, 10).step(1).name('Offset Y').onChange(generateNoise);
+gui.add(params, 'offsetX', -10, 10).step(0.25).name('Offset X').onChange(generateNoise);
+gui.add(params, 'offsetY', -10, 10).step(0.25).name('Offset Y').onChange(generateNoise);
 gui.add(params, 'noiseSeed', 1, 128).step(1).name('Noise Seed').onChange(generateNoise);
 gui.add(params, 'noiseSize', 1, 512).step(1).name('Noise Size').onChange(generateNoise);
 gui.add(params, 'noiseConstrast', 1, 2).step(0.1).name('Noise Constrast').onChange(generateNoise);
-
-gui.add(params, 'direction', ['Horizontal', 'Vertical']).onChange(updateMosaic);
+gui.add(params, 'direction', ['Horizontal', 'Vertical']).name('Direction').onChange(updateMosaic);
 maxHController.onChange(function (value) {
   minHController.max(value);
   if (params.minH > value) minHController.setValue(value);
@@ -106,7 +105,7 @@ gui.addColor(params, 'color').name('Tiles Color').onChange(updateMosaic);
 gui.addColor(params, 'colorBG').name('Background').onChange(updateMosaic);
 gui.add(params, 'filterBG').name('Transparent BG').onChange(updateMosaic);
 gui.add(params, 'invertFilter').name('Invert').onChange(updateMosaic);
-gui.add(params, 'showReferenceImage').name('Show Reference Noise').onChange(updateMosaic);
+gui.add(params, 'showReferenceImage').name('Reference Noise').onChange(updateMosaic);
 gui.add(params, 'imageDownloader').name('Download SVG');
 
 // Initialize and update

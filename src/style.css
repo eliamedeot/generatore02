@@ -17,65 +17,66 @@ body {
   height: auto;
   display: block;
   border-radius: 1rem;
-  box-shadow: 0 0 50px silver;
+  box-shadow: 0 0 50px rgb(225, 225, 225);
 }
 
 h1 {
-  color: #282828;
+  color: rgb(50, 50, 50);
   font-size: 4rem;
   line-height: 4rem;
   font-family: "DM Sans", sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   font-style: normal;
   text-transform: uppercase;
   margin-bottom: 2rem;
 }
 
 p {
-  color: dimgray;
+  color: rgb(125, 125, 125);
   font-family: "DM Sans", sans-serif;
-  font-weight: 450;
+  font-weight: 500;
   font-style: normal;
+  font-size: 1rem;
   text-transform: capitalize;
 }
 
 a {
-  color: dimgray;
+  color: rgb(125, 125, 125);
   font-family: "DM Sans", sans-serif;
-  font-weight: 450;
+  font-weight: 500;
   font-style: normal;
+  font-size: 1rem;
   text-transform: capitalize;
   text-decoration: none;
 }
 
 .lil-gui {
-  --background-color: whitesmoke;
-  --text-color: dimgray;
-  --title-background-color: gainsboro;
-  --title-text-color: dimgray;
+  --background-color: rgb(250, 250, 250);
+  --text-color: rgb(125, 125, 125);
+  --title-background-color: rgb(245, 245, 245);
 
-  --widget-color: gainsboro;
-  --hover-color: lightgray;
-  --focus-color: silver;
-  --number-color: gray;
-  --string-color: gray;
+  --title-text-color: rgb(125, 125, 125);
+  --number-color: rgb(125, 125, 125);
+  --string-color: rgb(125, 125, 125);
+
+  --widget-color: rgb(240, 240, 240);
+  --hover-color: rgb(235, 235, 235);
+  --focus-color: rgb(230, 230, 230);
 
   --widget-border-radius: 1rem;
   --widget-height: 1.5rem;
   --width: 100%;
-  --padding: 0;
-  --spacing: 0.75rem;
+  --padding: 0rem;
+  --spacing: 0.5rem;
 
   --name-width: 40%;
   --font-size: 1rem;
   --slider-knob-width: 0.2rem;
-  --slider-input-width: 20%;
-  --color-input-width: 20%;
+  --slider-input-width: 30%;
+  --color-input-width: 30%;
 
-  font-family: "DM Sans", sans-serif;
-  font-weight: 450;
-  font-style: normal;
-  text-transform: capitalize;
+  --font-family: "DM Sans", sans-serif;
+  --font-family-mono: "DM Mono", sans-serif;
 }
 
 .lil-gui .title {
@@ -85,16 +86,38 @@ a {
 .lil-gui .name {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-transform: none;
+  font-size: 1rem;
+
 }
 
 .lil-gui input {
+  font-family: "DM Mono", sans-serif;
+  font-weight: 500;
+  font-style: normal;
   text-transform: uppercase;
   text-align: center;
+  font-size: 1rem;
 }
 
-.lil-gui button {
-  font-family: "DM Sans", sans-serif;
-  font-weight: 450;
+.lil-gui .display {
+  font-family: "DM Mono", sans-serif;
+  font-weight: 500;
   font-style: normal;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.lil-gui button .name {
+  font-family: "DM Mono", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1rem;
 }
